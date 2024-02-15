@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> new document </title>
+  <link href="css/common.css" type="text/css" rel="stylesheet" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> 
+  <script type="text/javascript">
+	 const init = function(){
+		$("#addressList").data("rowCount", 0);
+		$("#addBtn").on("click", function(e){
+			e.preventDefault(); // 이중 클릭 방지
+			const rowCount = $("#addressList").data("rowCount");
+			if (rowCount == 0) {
+				$('#addressList tbody tr').remove();
+			}
+			$("#addressList").data("rowCount", rowCount+1);
+			const tr = document.createElement("tr");
+			$(tr).append("<td>양영보</td>");
+			$(tr).append("<td>010-1111-2222</td>");
+			const td = $("<td></td>").appendTo(tr);
+			const aTagText = '<a href="#"><img src="images/btn_del.gif" alt="삭제" /></a>';
+			const aTag = $(aTagText).appendTo(td);
+			$(aTag).on("click",function(){
+				$(this).parent().parent().remove();
+				const rowCount = $("#addressList").data("rowCount");
+				const nextRowCount = rowCount - 1;
+				$("#addressList").data("rowCount", nextRowCount);
+				console.log($("#addressList").data("rowCount"));
+				if(nextRowCount == 0){
+					$('#addressList tbody').append('<tr><td colspan="3">등록 된 내용이 없습니다.</td></tr>');
+				}
+			})
+			console.log($("#addressList").data("rowCount"));
+			// $(tr).append('<td><a href="#"><img src="images/btn_del.gif" alt="삭제" /></a></td>');
+			$("#addressList tbody").append(tr);
+		})
+	 }
+	 window.onload = init;
+  </script>
+ </head>
+ <body>
+<form name="frm" method="post">	
+	<label for="mem_name">이름</label>
+	<input type="text" id="userName" size="15" name="userName" maxlength="10"/>
+	<label for="mem_phone">핸드폰번호</label>
+	<input type="text" id="userPhone" size="20" maxlength="11" name="userPhone"/>
+	<a href="#" id="addBtn"><img src="images/btn_add.gif" alt="추가"/></a>		
+</form>
+<table id="addressList">
+	<caption>전화번호부</caption>
+	<colgroup>
+		<col width="40%" />
+		<col width="40%" />
+		<col width="20%" />
+	</colgroup>
+	<thead>
+		<tr>
+			<th scope="col">이름</th>
+			<th scope="col">전화번호</th>
+			<th scope="col">삭제</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td colspan="3">등록 된 내용이 없습니다.</td>
+		</tr>
+		<!--
+		<tr>
+			<td>양영보</td>
+			<td>010-1111-2222</td>
+			<td>
+				<a href="#"><img src="images/btn_del.gif" alt="삭제" /></a>
+			</td>
+		</tr>
+		-->
+	</tbody>
+</table>
+ </body>
+</html>

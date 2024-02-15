@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>jquery</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        const init = function(){
+            $('#moveBtn').on('click',function(){
+                $('#list1').append($('#list2 li:first'));
+            })
+            $('#checkBtn').on('click',function(){
+                $('#list3 li:eq(1)').next().text('check');
+                $('#list3 li:eq(1)').prev().text('check');
+                $('#list3 li:eq(1)').parent().css('border','1px dashed red');
+                $('#list3 li:eq(1)').find('a').text('MS');
+            })
+            $('#sendBtn').on('click',function(){
+                const idInput = $('input[name="id"]').val();
+                console.log(idInput);
+            })
+            $('input[name="id"]').on('keyup', function(e){
+                // console.log(e);
+                if (e.key.toLowerCase() == 'enter') {
+                    console.log('전송');
+                }
+            })
+        }
+        window.onload = init;
+    </script>
+</head>
+<body>
+    <form action="" method="get">
+        id : <input type="text" name="id"><input type="text" name="pw"><button id="sendBtn" type="button">전송</button>
+    </form>
+    <button id="moveBtn">move</button>
+    <button id="checkBtn">check</button>
+    <ul id="list1"></ul>
+    <hr/>
+    <ul id="list2">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+    <hr/>
+    <ul id="list3">
+        <li><a href="#">naver</a></li>
+        <li><a href="#">google</a></li>
+        <li><a href="#">kakao</a></li>
+    </ul>
+</body>
+</html>

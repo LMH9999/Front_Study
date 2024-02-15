@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <script type="text/javascript">
+        function clickEvent(){
+            // console.log('click');
+            // document.getElementById(/'box').innerHTML = "click";
+            const list = document.getElementById('list');
+            const liList = list.getElementsByTagName('li')
+            for (let i = 0; i< liList.length; i++) {
+              liList[i].innerText = "click"+ (i+1);
+            }
+        }
+        window.onload = function(){
+            // document.getElementById('btn').onclick = clickEvent;
+            document.getElementById('btn').onclick = function(){
+                clickEvent();
+            };
+        };
+    </script>
+</head>
+<body>
+    <!-- <button onclick="javascript:clickEvent()" id="btn">click</button> -->
+    <button id="btn">click</button>
+    <div id="box">blank</div>
+    <ul id="list">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+</body>
+</html>

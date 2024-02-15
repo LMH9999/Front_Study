@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title> new document </title>
+  <link href="css/style.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript">
+	const init = function(){
+		document.getElementById('nextBtn').onclick= function () {
+			const activeList = document.getElementsByClassName('active');
+			let num = activeList[0].num + 1;
+			console.log(num);
+			if (aTagList.length <= num) {
+				num = 0;
+			}
+			aTagList[num].onmouseenter();
+		}
+		document.getElementById('prevBtn').onclick= function () {
+			const activeList = document.getElementsByClassName('active');
+			let num = activeList[0].num - 1;
+			console.log(num);
+			if (num < 0) {
+				num = aTagList.length - 1;
+			}
+			aTagList[num].onmouseenter();
+		}
+		const pagingList = document.getElementById('pagingList');
+		const aTagList = pagingList.getElementsByTagName('a');
+		const bannerList = document.getElementById('bannerList');
+		const liTagList = bannerList.getElementsByTagName('li');
+		for (var i = 0; i < aTagList.length; i++) { // var로 선언하면 값이 재정의 되서 값이 이상한 값이 나올 수 있다
+			aTagList[i].num = i;
+			aTagList[i].onmouseenter = function(){
+				console.log(this.num); // this를 이용하면 var로 인한 재정의가 된다고 해도 정확한 값이 나온다
+				for (let j = 0; j < aTagList.length; j++) {
+					// console.log(j,this.num);
+					if (j == this.num) {
+						aTagList[j].classList.add('active');
+						liTagList[j].style.display = 'block';
+					} else {
+						// aTagList[j].className = 'bx-pager-link';
+						aTagList[j].classList.remove('active');
+						liTagList[j].style.display = 'none';
+					}
+				}
+			}
+		}
+	}
+	window.onload = init;
+  </script>
+ </head>
+ <body style="padding:100px;">
+	<div class="customerSection">
+		<div class="custom_name"><em>인터파크</em> 고객님,</div>
+		<div class="custom_tit"><img src="images/tit_custom.gif" alt="이 상품은 어떠세요?"></div>
+		<div class="custom_part" style="display: block;">
+			<div class="bx-wrapper" style="max-width: 310px;">
+				<div class="bx-viewport">
+					<ul id="bannerList">
+						<li style="display:block;">
+							<a href="#"><img src="images/1.jpg" alt="쇼핑추천"></a>
+						</li>
+						<li style="display:none;">
+							<a href="#"><img src="images/2.jpg" alt="도서추천"></a>
+						</li>
+						<li style="display:none;">
+							<a href="#"><img src="images/3.jpg" alt="티켓추천"></a>
+						</li>
+
+						<li style="display:none;">
+							<a href="#"><img src="images/4.jpg" alt="투어추천"></a>
+						</li>
+					</ul>
+				</div>
+				<div class="bx-controls bx-has-pager bx-has-controls-direction">
+					<div id="pagingList" class="bx-pager bx-default-pager">
+						<div class="bx-pager-item">
+							<a href="#" class="bx-pager-link active">1</a>
+						</div>
+						<div class="bx-pager-item">
+							<a href="#" class="bx-pager-link">2</a>
+						</div>
+						<div class="bx-pager-item">
+							<a href="#" class="bx-pager-link">3</a>
+						</div>
+						<div class="bx-pager-item">
+							<a href="#" class="bx-pager-link">4</a>
+						</div>
+					</div>
+					<div class="bx-controls-direction">
+						<a class="bx-prev" href="#" id="prevBtn">Prev</a>
+						<a class="bx-next" href="#" id="nextBtn">Next</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+ </body>
+</html>

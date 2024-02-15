@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>attribute / property</title>
+    <script type="text/javascript">
+        const init = () => {
+            document.getElementById('btn').num = '9999';
+            document.getElementById('btn').onclick = function(){
+                console.log(this.num);
+                const list = document.getElementById('list');
+                const aTagList = list.getElementsByTagName('a');
+                console.log(aTagList);
+                for (let i = 0; i < aTagList.length; i++) {
+                    aTagList[i].anum = i+1;
+                    console.log(aTagList[i].anum);
+                    // console.log(aTagList[i].getAttribute('num'));
+                }
+
+                // const link1 = document.getElementById('link1');
+                // console.log(link1.getAttribute('num'));
+                // const link2 = document.getElementById('link2');
+                // console.log(link2.getAttribute('num'));
+
+            }
+        }
+        window.onload = init;
+    </script>
+</head>
+<body>
+    <button id="btn">click</button>
+    <br>
+    <ul id="list">
+        <li>
+            <a href="http://www.naver.com" id="link1" num="1">naver</a>
+        </li>
+        <li> 
+            <a href="http://www.google.com" id="link2" num="2">google</a>
+        </li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>jquery</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        const init = function(){
+            $('#box').on('click',function(){
+                // this.innerText = 'box click';
+                $(this).text('click');
+                console.log($(this).attr("id"));
+            })
+            $('#addBtn').on('click',function(){
+                // $('#myList').append('<li>a</li>');
+                $('#myList').prepend('<li>a</li>');
+                const li = document.createElement('li');
+                $('#myList').prepend(li);
+            })
+            $('#delBtn').on('click', function(){
+                $('#box').remove();
+                $('#myList li:eq(2)').remove();
+            })
+        }
+        window.onload = init;
+    </script>
+</head>
+<body>
+    <button id="addBtn">add</button>
+    <button id="delBtn">delete</button>
+    <ul id="myList">
+        <li>temp</li>
+    </ul>
+    <div id="box">text</div>
+</body>
+</html>
