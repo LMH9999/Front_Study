@@ -8,19 +8,52 @@
   <script type="text/javascript">
 	 const init = function(){
 		$("#addressList").data("rowCount", 0);
+
 		$("#addBtn").on("click", function(e){
 			e.preventDefault(); // 이중 클릭 방지
+
+			/* form 검증 */
+			const userName = $.trim($("#userName").val()); // 좌우 공백 제거
+			const userPhone = $.trim($("#userPhone").val()); // 좌우 공백 제거
+
+			if (!userName) {
+				alert("이름을 입력해 주세요")
+				$("#userName").focus();
+				return false; // 함수가 더 진행이 안되게..
+			}
+			if (!userPhone) {
+				alert("핸드폰번호를 입력해 주세요")
+				$("#userPhone").focus();
+				return false; // 함수가 더 진행이 안되게..
+			}
+			if (userPhone.length > 11) {
+	            alert("핸드폰 번호는 11자리를 넘어갈 수 없습니다.");
+            	$("#userPhone").focus();
+            	return false; // 함수 Stop
+          	}
+			/* form 검증 */
+
 			const rowCount = $("#addressList").data("rowCount");
+
 			if (rowCount == 0) {
 				$('#addressList tbody tr').remove();
 			}
+
 			$("#addressList").data("rowCount", rowCount+1);
+
 			const tr = document.createElement("tr");
-			$(tr).append("<td>양영보</td>");
-			$(tr).append("<td>010-1111-2222</td>");
+
+			$(tr).append("<td>" + userName + "</td>");
+
+			let userPhoneStr = userPhone.substring(0,3) + "-" + userPhone.substring(3,7) + "-" + userPhone.substring(7);
+			// userPhoneStr = userPhoneStr + "-" + userPhone.substring(3,7);
+			// userPhoneStr = userPhoneStr + "-" + userPhone.substring(7);
+			$(tr).append("<td>" + userPhoneStr + "</td>");
+
 			const td = $("<td></td>").appendTo(tr);
 			const aTagText = '<a href="#"><img src="images/btn_del.gif" alt="삭제" /></a>';
 			const aTag = $(aTagText).appendTo(td);
+
 			$(aTag).on("click",function(){
 				$(this).parent().parent().remove();
 				const rowCount = $("#addressList").data("rowCount");
@@ -31,9 +64,18 @@
 					$('#addressList tbody').append('<tr><td colspan="3">등록 된 내용이 없습니다.</td></tr>');
 				}
 			})
+			$("#userName, #userPhone").val("");
+
 			console.log($("#addressList").data("rowCount"));
 			// $(tr).append('<td><a href="#"><img src="images/btn_del.gif" alt="삭제" /></a></td>');
 			$("#addressList tbody").append(tr);
+		})
+		$("#userPhone").on("keyup", function(e){
+			// g : 전체, i : 대소문자 구분 없이
+			this.value = this.value.replace(/[^0-9]/gi,'');
+			if(e.key.toLowerCase() == "enter"){
+				$("#addBtn").trigger("click");
+			}
 		})
 	 }
 	 window.onload = init;
