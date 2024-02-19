@@ -66,6 +66,7 @@
                 if (data.result == "Y") {
                   alert("입력 성공!");
                   $("#writeCloseBtn").trigger("click");
+                  getList();
                 } else {
                   alert("입력 실패");
                 }
@@ -135,7 +136,7 @@
                               alert("조회하신 정보가 없습니다.");
                             }else{
                               // console.log("view result", data);
-                              modifyFormInit(data.result[0]);
+                              modifyForm(data.result[0]);
                             }
 
                           },
@@ -148,23 +149,31 @@
                       const deleteBtn = $('<button type="button" class="btn btn-danger">삭제</button>').appendTo(td);
                       $(deleteBtn).data("id",element.id);
                       $(deleteBtn).on("click", function(){
-                        console.log($(this).data("id"));
-                        const apiUrl = "http://diddudqh.dothome.co.kr/board/delete.php";
-                        $.ajax({
-                          type: "GET",
-                          url: apiUrl,
-                          data: {
-                            id: $(this).data("id")
-                          },
-                          dataType: "json",
-                          success: function (data) {
-                            console.log(data);
-                            getList();
-                          },
-                          error: function (jqXHR, textStatus, errorThrown) {
-                            console.log(textStatus + "," + errorThrown);
-                          },
-                        });
+                        if(confirm("정말 삭제할까요?"))
+                        {
+                          console.log($(this).data("id"));
+                          const apiUrl = "http://diddudqh.dothome.co.kr/board/delete.php";
+                          $.ajax({
+                            type: "GET",
+                            url: apiUrl,
+                            data: {
+                              id: $(this).data("id")
+                            },
+                            dataType: "json",
+                            success: function (data) {
+                              if(data.result == "Y"){
+                                alert("삭제 성공!");
+                                getList();
+                              }else{
+                                alert("삭제 실패!");
+                              }
+
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                              console.log(textStatus + "," + errorThrown);
+                            },
+                          });
+                        }
                       })
 
                       $(tr).append(td);
@@ -179,35 +188,28 @@
               },
             });
       }
-      const modifyFormInit = function(data){
-        console.log(data);
-        $("#list,#regBtn").hide();
-        $("#modifyForm").show();
-        $("#modifyForm input[name='id']").val(data.id);
-        $("#modifyForm input[name='title']").val(data.title);
-        $("#modifyForm textarea[name='content']").val(data.content);
-
-        // 등록->취소 버튼
+      const modifyFormInit = function(){
+        // 수정->취소 버튼
         $("#modifyCloseBtn").on("click", function () {
+          console.log(this);
           $("#modifyForm").hide();
           $("#list,#regBtn").show();
         });
 
-        // 수정->수정 버튼
+        // 수정->쓰기 버튼
         $("#modifyBtn").on("click", function () {
+          const id = $("#modifyForm input[name='id']").val();
           const title = $.trim($("#modifyForm input[name='title']").val());
-          const content = $.trim(
-            $("#modifyForm textarea[name='content']").val()
-          );
-          console.log(title, content);
+          const content = $.trim($("#modifyForm textarea[name='content']").val());
+          console.log(id, title, content);
           if (title == "") {
             alert("제목을 입력해 주세요.");
-            $("#writeForm input[name='title']").focus();
+            $("#modifyForm input[name='title']").focus();
             return false;
           }
           if (content == "") {
             alert("내용을 입력해 주세요.");
-            $("#writeForm textarea[name='content']").focus();
+            $("#modifyForm textarea[name='content']").focus();
             return false;
           }
 
@@ -218,7 +220,7 @@
               type: "POST",
               url: apiUrl,
               data: {
-                id : data.id,
+                id : id,
                 title: title,
                 content: content
               },
@@ -241,8 +243,18 @@
         });
       }
 
+      const modifyForm = function(data){
+        console.log(data);
+        $("#list,#regBtn").hide();
+        $("#modifyForm").show();
+        $("#modifyForm input[name='id']").val(data.id);
+        $("#modifyForm input[name='title']").val(data.title);
+        $("#modifyForm textarea[name='content']").val(data.content);
+      }
+
       const init = function () {
         writeFormInit();
+        modifyFormInit();
         getList();
       };
       window.onload = init;
@@ -278,11 +290,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <!-- <tr>
               <td colspan="4" style="text-align: center">
                 등록 된 내용이 없습니다.
               </td>
-            </tr>
+            </tr> -->
             <!--
                   <tr>
                     <td>5</td>
