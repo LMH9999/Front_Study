@@ -10,7 +10,76 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script type="text/javascript">
-      
+      const makeChart = (stock, datas) => {
+        const labels = []; // x축
+        const labelDatas = []; // y축
+        
+        $(datas).each(
+          function(index,element) {
+            labels.unshift(element.date);
+            labelDatas.unshift(element.close);
+          }
+        );
+
+        // 기존 차트를 지우고 새로 생성
+        $("#chartContainer canvas").remove();
+        $("#chartContainer").append('<canvas id="myChart"></canvas>');
+
+        // 랜덤한 rgb값 얻기
+        const randomColor = "#" + Math.round(Math.random() * 0xFFFFFF).toString(16);
+
+        const ctx = document.getElementById('myChart');
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: stock,
+              data: labelDatas,
+              borderColor: randomColor,
+              backgroundColor: randomColor
+            }]
+          },
+          options: {
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: false
+              }
+            }
+          }
+        });
+      }
+      const init = () => {
+        // makeChart();
+        $("#stockSelect").on("change", function(){
+          // console.log(this.value);
+          // console.log(this);
+          const stock = this.value;
+          if (stock == "") {
+            alert("회사를 선택하셔야 정보를 보실수 있습니다.");
+            return false;
+          }
+
+          const apiUrl = "http://diddudqh.dothome.co.kr/stock/search.php";
+          $.ajax({
+            type: "GET",
+            url: apiUrl,
+            data: {
+              stock: stock
+            },
+            dataType: "json",
+            success: function (data) {
+              console.log(stock, data.datas);
+              makeChart(stock, data.datas);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              console.log(textStatus + "," + errorThrown);
+            }
+          });
+        }) 
+      }
+      window.onload = init;
     </script>
 </head>
 <body>
@@ -31,7 +100,7 @@
             </div>
           </div>
           <div class="table-responsive" id="chartContainer" style="height: 400px;">
-              <!--<canvas id="myChart"></canvas>-->
+              <canvas id="myChart"></canvas>
           </div>
     </main>
 </body>
