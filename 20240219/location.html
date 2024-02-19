@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <script type="text/javascript">
+        const init = () => {
+            document.getElementById('btn').onclick = () => {
+                location.href = "http://www.naver.com";
+            }
+            document.getElementById('btn1').onclick = () => {
+                location.reload();
+            }
+            document.getElementById('btn2').onclick = () => {
+                alert(navigator.userAgent);
+            }
+            
+        }
+        window.onload = init;
+    </script>
+</head>
+<body>
+    <button id="btn">move</button>
+    <button id="btn1">reload</button>
+    <button id="btn2">agent</button>
+</body>
+</html>
