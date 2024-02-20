@@ -16,7 +16,29 @@
   </style>
   <script type="text/javascript" src="common.js"></script>
   <script type="text/javascript">
-    function init(){
+    const init = () => {
+      document.getElementById('couponBtn').onclick = function(){
+        if(getCookie('todayHidden')=='Y'){
+          return false;
+        }
+        document.getElementById('popup').style.display = 'block';
+      }
+
+      document.getElementById('printBtn').onclick = function(){
+        window.print();
+        return false;
+      }
+      
+      document.getElementById('closeBtn').onclick = function(){
+        document.getElementById('popup').style.display = 'none';
+        return false;
+      }
+
+      document.getElementById('hiddenBtn').onclick = function(){
+        setCookie('todayHidden','Y',1); // cname, cvalue, expire date
+        document.getElementById('closeBtn').onclick();
+        return false;
+      }
     }
     window.onload = init;
   </script>
