@@ -11,25 +11,46 @@
 		const aTagList = buttonList.getElementsByTagName('a');
 		const liTagList = bannerList.getElementsByTagName('li');
 		// console.log(aTagList);
+
 		for (let i = 0; i < aTagList.length; i++) {
 			aTagList[i].onmouseover = function(){
+				console.log('sid: ',sId);
+				clearInterval(sId);
 				// html class -> dom className
 				const myNum = this.getAttribute("num");
-				for (let j = 0; j < aTagList.length; j++) {
-					// console.log(aTagList[j].getAttribute('num'),this.getAttribute('num'));
-					if (aTagList[j].getAttribute('num') == myNum) {
-						aTagList[j].className = 'on';
-						liTagList[j].className = 'on';
-					}else{
-						aTagList[j].className = '';
-						liTagList[j].className = '';
-					}
-				}
-				// buttonList.getElementsByClassName('on').remove;
-				// this.className = 'on';
-			};
+				changeMenu(myNum);
+			};			
+			aTagList[i].onmouseout = function(){
+				sId = setInterval(myTimer,3000);
+			}
 		}
-	  }
+
+		const changeMenu = function (myNum) {
+			for (let j = 0; j < aTagList.length; j++) {
+				// console.log(aTagList[j].getAttribute('num'),this.getAttribute('num'));
+				if (aTagList[j].getAttribute('num') == myNum) {
+					aTagList[j].className = 'on';
+					liTagList[j].className = 'on';
+				}else{
+					aTagList[j].className = '';
+					liTagList[j].className = '';
+				}
+			}
+			// buttonList.getElementsByClassName('on').remove;
+			// this.className = 'on';
+		};
+
+		const myTimer = function(){
+			const aTag = buttonList.getElementsByClassName("on")[0];
+			const currentNum = parseInt(aTag.getAttribute("num"));
+			let nextNum = currentNum + 1;
+			if(nextNum >= aTagList.length+1){
+				nextNum = 1;
+			}
+			changeMenu(nextNum);
+		}
+		let sId = setInterval(myTimer,3000);
+	  };
 	  window.onload = init;
   </script>
  </head>
