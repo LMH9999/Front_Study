@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 
 const EventPracticeFunction = () => {
-    const [message,setMessage] = useState('');
-    const [username,setUsername] = useState('');
+    //const [message,setMessage] = useState('');
+    //const [username,setUsername] = useState('');
+    const [form,setForm] = useState({message:'',username:''});
+    const {message,username} = form;
 
     const handleChange = (e) => {
-        {e.target.name === 'message' ? setMessage(e.target.value) : setUsername(e.target.value)};
-        // setMessage(e.target.value);/
+        //e.target.name === 'message' ? setMessage(e.target.value) : setUsername(e.target.value);
+        setForm({...form,[e.target.name]:e.target.value});
     }
 
     return (
