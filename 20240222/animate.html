@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#moveBtn").on("click",function(){
+                $("#box").animate(
+                    {
+                        left:'500px',
+                        top:'600px',
+                        width:'300px',
+                        height:'300px',
+                        opacity:0
+                    }, //바꿀 css
+                    2000, // 적용 시간
+                    'easeOutQuart', // 움직임 형태
+                    function(){
+                        console.log("animate end"); // 애니메이션 끝난 시간
+                        $("#box").animate(
+                            {
+                                left:'0px',
+                                top:'100px',
+                                width:'100px',
+                                height:'100px',
+                                opacity:1
+                            }, //바꿀 css
+                            2000, // 적용 시간
+                            'easeOutQuart', // 움직임 형태
+                            function(){
+                                console.log("animate end"); // 애니메이션 끝난 시간
+                            }
+                        )
+                    }
+                )
+            });
+        })
+    </script>
+</head>
+<body>
+
+    <button id="moveBtn">move</button>
+    <hr/>
+    <div 
+        id="box" 
+        style="width:100px;
+            height:100px;
+            background-color: red;
+            position: absolute;
+            top:100px;">
+    </div>
+</body>
+</html>
