@@ -7,7 +7,37 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
   <script type="text/javascript">
-  
+	$(document).ready(function(){
+		$("#banner").css(
+			{
+				width: (848*5)+"px",
+				position: 'absolute',
+				left:'0px'
+			}
+		);
+		$("#banner div").css({float:'left'});
+		$("#tab a").each(
+			function(index,element){
+				console.log(index,element);
+				$(element).data('index',index);
+			}
+		)
+		$("#tab a").on('mouseenter',function(e){
+			e.preventDefault(); // 이중 클릭 방지
+			$("#tab div.on").removeClass('on');
+			$(this).parent().addClass('on');
+			console.log($(this).data('index'));
+			const index = $(this).data("index");
+			$('#banner').stop().animate(
+				{
+					left: '-'+(index*848)+'px'
+				},
+				600,
+				"easeOutQuart"
+			)
+		}
+		)
+	})
   </script>
  </head>
  <body style="padding:100px;">
