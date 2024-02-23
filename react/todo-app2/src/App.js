@@ -3,12 +3,6 @@ import TodoTemplate from './components/TodoTemplate';
 import TodoInsert from './components/TodoInsert';
 import TodoList from './components/TodoList';
 
-function createBulkTodos(){
-  const array = [];
-  for(let index = 0; index < 2500; index++){
-    array.push({id:index+1,text:'일정'+(index+1),checked:false});
-  }
-}
 
 const App = () => {
   const [todos,setTodos] = useState(
