@@ -3,17 +3,18 @@ import TodoTemplate from './components/TodoTemplate';
 import TodoInsert from './components/TodoInsert';
 import TodoList from './components/TodoList';
 
+function createBulkTodos(){
+  const array = [];
+  for(let index = 0; index < 2500; index++){
+    array.push({id:index+1,text:'일정'+(index+1),checked:false});
+  }
+  return array;
+}
 
 const App = () => {
-  const [todos,setTodos] = useState(
-    [
-      {id:1, text:'일정1', checked:true},
-      {id:2, text:'일정2', checked:true},
-      {id:3, text:'일정3', checked:true}
-    ]
-  );
+  const [todos,setTodos] = useState(createBulkTodos);
 
-  const nextId = useRef(4);
+  const nextId = useRef(2501); // id 관리용
   const onInsert = useCallback(text=>{
     const nextTodo = {id:nextId.current,text:text,checked:false};
     setTodos(todos.concat(nextTodo));
