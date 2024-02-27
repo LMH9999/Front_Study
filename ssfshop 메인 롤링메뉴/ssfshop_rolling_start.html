@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title> new document </title>
+  <link href="css/style.css" type="text/css" rel="stylesheet"  media="screen" />
+  <script type="text/javascript">
+      const init = function () {
+        const pagingList = document.getElementById("pagingList");
+        const pagingLiList = pagingList.getElementsByTagName("li");
+        const imgList = document.getElementById("imgList");
+        const imgLiList = imgList.getElementsByTagName("li");
+        for (let index = 0; index < pagingLiList.length; index++) {
+			pagingLiList[index].onmouseover = function () {
+            clearInterval(sId);
+
+            const myNum = this.getAttribute("num");
+            changeMenu(myNum);
+
+          };
+          pagingLiList[index].onmouseout = function () {
+            sId = setInterval(myTimer, 2000);
+          };
+        }
+        const changeMenu = function (myNum) {
+          for (let i = 0; i < pagingLiList.length; i++) {
+            if (pagingLiList[i].getAttribute("num") == myNum) {
+				pagingLiList[i].classList.add('active');;
+				imgLiList[i].classList.add('active');;
+            } else {
+			  	pagingLiList[i].classList.remove('active');
+			  	imgLiList[i].classList.remove('active');
+            }
+          }
+        };
+        const myTimer = function () {
+          const aTag = pagingList.getElementsByClassName("active")[0];
+          const presentNum = parseInt(aTag.getAttribute("num")); // 1,2,3,4
+          let nextNum = presentNum + 1;
+          if (nextNum >= pagingLiList.length + 1) {
+            nextNum = 1;
+          }
+          changeMenu(nextNum);
+        };
+        let sId = setInterval(myTimer, 2000);
+
+        document.getElementById("btnNext").onclick = function () {
+          const aTag = pagingList.getElementsByClassName("active")[0];
+          const presentNum = parseInt(aTag.getAttribute("num")); // 1,2,3,4
+          let nextNum = presentNum + 1;
+          if (nextNum >= pagingLiList.length + 1) {
+            nextNum = 1;
+          }
+          changeMenu(nextNum);
+        };
+
+        document.getElementById("btnPrev").onclick = function () {
+          const aTag = pagingList.getElementsByClassName("active")[0];
+          const presentNum = parseInt(aTag.getAttribute("num")); // 1,2,3,4
+          let nextNum = presentNum + -1;
+          if (nextNum <= 0) {
+            nextNum = pagingLiList.length;
+          }
+          changeMenu(nextNum);
+        };
+      };
+
+      window.onload = init;
+  </script>
+ </head>
+ <body>
+
+ <div class="mainSlider">
+	<!-- 슬라이더 이미지 -->
+	<div class="lSSlideOuter ">
+		<div class="lSSlideWrapper usingCss">
+			<ul class="mainImg lightSlider lSFade" id="imgList">
+				<li class="lslide active">
+					<a href="#" class="imgWrap">	
+						<img src="images/1.jpg" alt="LYA LOVE CAMPAIGN">
+					</a>
+				</li>	
+				<li class="lslide">
+					<a href="#" class="imgWrap">	
+						<img src="images/2.jpg" alt="루키콜라보">
+					</a>
+				</li>
+				<li class="lslide">
+					<a href="#" class="imgWrap">	
+						<img src="images/3.jpg" alt="(쿠폰X) 8S X KAKAO">
+					</a>
+				</li>
+				<li class="lslide">
+					<a href="#" class="imgWrap">	
+						<img src="images/4.jpg" alt="SUMMER NEW ITEM">
+					</a>
+				</li>
+				<li class="lslide">
+					<a href="#" class="imgWrap">	
+						<img src="images/5.jpg" alt="D">
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="lSAction">
+			<a class="lSPrev" id="btnPrev"></a>
+			<a class="lSNext" id="btnNext"></a>
+		</div>
+		<div class="lSPager lSpg">
+			<ul id="pagingList">
+				<li class="active" num="1"><a href="#">1</a></li>
+				<li class="" num="2"><a href="#">2</a></li>
+				<li class="" num="3"><a href="#">3</a></li>
+				<li class="" num="4"><a href="#">4</a></li>
+				<li class="" num="5"><a href="#">5</a></li>
+			</ul>
+		</div>
+	</div>	
+ </div>	
+
+ </body>
+</html>
